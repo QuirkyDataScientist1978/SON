@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.swing.JFrame;
+
 import java.io.*;
 import java.nio.file.Paths;
 
@@ -28,6 +31,21 @@ public class SON
 			Neuron neuron = new Neuron(i, dimension);
 			neurons.add(neuron);
 		}
+	}
+	
+	public ArrayList<Neuron> GetNeurons()
+	{
+		return neurons;
+	}
+	
+	public ArrayList<Point> GetPoints()
+	{
+		return points;
+	}
+	
+	public HashMap<Integer, Integer> GetClassificationMatrix()
+	{
+		return classificationMatrix;
 	}
 	
 	public void ReadPoints(String pointsFilename)
@@ -127,14 +145,22 @@ public class SON
 	public static void main(String args[])
 	{
 		String pointsFilename = Paths.get(".").toAbsolutePath().normalize().toString()+"\\data.csv";
-		int k = 5;
+		int k = 2;
 		int dimension = 2;
 		double lr = 0.01;
 		int epochs = 5000;
-		SON som = new SON(k, dimension, lr, epochs);
-		som.ReadPoints(pointsFilename);
-		som.Train();
-		som.Classify();
-		som.PrintClassification();
+		SON son = new SON(k, dimension, lr, epochs);
+		son.ReadPoints(pointsFilename);
+		son.Train();
+		son.Classify();
+		//son.PrintClassification();
+		
+		PointsDrawer pointsDrawer = new PointsDrawer(son.GetNeurons(), son.GetPoints(), son.GetClassificationMatrix());
+		JFrame frame = new JFrame("Points to cluster");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(pointsDrawer);
+		frame.setSize(1000, 1000);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 }
