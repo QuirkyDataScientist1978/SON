@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.io.*;
+import java.nio.file.Paths;
 
 public class SON
 {
@@ -125,7 +126,7 @@ public class SON
 	
 	public static void main(String args[])
 	{
-		String pointsFilename = "C:\\Users\\asal\\Desktop\\NeuralNetworks_Ergasia3\\data.csv";
+		String pointsFilename = Paths.get(".").toAbsolutePath().normalize().toString()+"\\data.csv";
 		int k = 5;
 		int dimension = 2;
 		double lr = 0.01;
